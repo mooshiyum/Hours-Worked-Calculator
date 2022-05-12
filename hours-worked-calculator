@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel ="stylesheet" href="lab2.css"/> -->
+    <title>484 Lab2 Miroo Yum</title>
+<!--------------------- CSS --------------------->
+    <style>
+        /****** Universal Styles ******/
+        html, body{
+            height: 100%;
+            /* width: 100%; */
+        }
+        html{
+            font-family: "Arial", sans-serif;
+            margin: auto;
+            display: table;
+        }
+        body{
+            min-width: 651px; 
+            max-width: 690px; 
+            vertical-align: middle;
+            /* display: table-cell; */
+        }
+
+        /*********** Header ***********/
+        .header{
+            background-color: #ebf2ac;
+            padding: 20px 50px;
+            text-align: center;
+        }
+        .title{
+            color: #29d657;
+            font-size: 50px;
+            font-family: serif;
+        }
+        .bold{
+            font-weight: 700;
+        }
+
+        /********* Student Inputs **********/
+        .student-info{
+            background-color: #de781f;
+            padding: 10px 10px;
+        }
+        .student-info input{
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .student-info form{
+            background-color: #bdbdbd;
+            padding: 20px;
+        }
+        .student-info li{
+            padding: 0;
+            display: inline-block;
+        }
+        .overflowing{
+            overflow-x: scroll;
+        }
+        /** Botton half **/
+        .backgr{
+            background-color: #3c3940;
+            padding: 10px;
+            /* height: 350px; */
+        }
+        /********* Calculator **********/
+        .calculate{
+            /* padding: 10px; */
+            padding: 10px 0;
+        }
+        .calc_title{
+            font-size: 35px;
+            color: #c2bfc7;
+            font-weight: 550;
+            padding-left: 10px;
+            display: block;
+        }
+        .calculator{
+            background-color: #de781f;
+            padding: 10px;
+            width: 189px;
+            display: inline-block;
+        }
+        .result{
+            height: 40px;
+            width: 178px;
+            font-size: 30px;
+            text-align: right;
+        }
+        .button{
+            background-color: #3c3940;
+            color: whitesmoke;
+            font-size: 23px;
+            margin-top: 5px;
+            width: 2.7pc;
+            height: 2.7pc;
+            border-radius: 50%;
+            border: none;
+        }
+        .btn{
+            background-color: #6e6e6b;
+        }
+        .clearbtn{
+            background-color: #d4d479;
+            color: black;
+        }
+        .button:hover{
+            background-color: #adaca8;
+            ;
+        }
+        .b789{
+            margin-top: 10px;
+        }
+
+        /** Hours Worked **/
+        .hours{
+            padding: 5px 10px;
+            font-size: 25px;
+            background-color: white;
+        }
+        .hours_title{
+            /* font-size: 40px; */
+        }
+
+        .save{
+            display: inline-block;
+        }
+
+        .msg_area{
+            text-align: center;
+            padding: 10px;
+            padding-top: 0;
+            /* display: block; */
+            /* display: inline-block; */
+        }
+        .msg_span{               
+            display: block;
+            font-size: 20px;
+            color: red;
+        }
+        
+    </style>
+<!---------------- End CSS ---------------->
+
+<!--------------- JAVASCRIPT ---------------->
+    <script >
+        /******************************* biography *******************************/
+        var maxCharacters;
+        function countWords(self){
+            var maxWords = 25;
+            var spaces = self.value.match(/\S+/g);
+            var words = spaces ? spaces.length : 0;
+            if(words == maxWords){
+                maxCharacters = self.value.length;
+            }
+            if(words > maxWords){
+                 self.value = self.value.substring(0, maxCharacters);
+            }
+            document.getElementById("count-words").innerHTML = words+" words";
+            // if greater than 25 words dues to buggssss
+            if(words > maxWords){
+                document.getElementById("count-words").style.color= 'red';
+            }else{
+                document.getElementById("count-words").style.color= 'black';
+
+            }
+        }
+        /*********************** first & last name capitalized **************************/
+        function upperCaseFirstLetter(val){
+            let text = val.value;
+            val.value = text[0].toUpperCase()+text.substring(1).toLowerCase();
+        }
+        /********************************** calculator ********************************/
+        var firstnum="", secondnum="";
+        var sign='';
+        function results(self){
+            var screen = document.getElementById('result');
+            var equals=-1;
+            
+            if (isNaN(screen.value)){
+                screen.value = 'ERROR: press C';
+            }
+            else{
+                switch(self){
+                    case '1': screen.value += 1;
+                        break;
+                    case '2': screen.value += 2;
+                        break;
+                    case '3': screen.value += 3;
+                        break;
+                    case '4': screen.value += 4;
+                        break;
+                    case '5': screen.value += 5;
+                        break;
+                    case '6': screen.value += 6;
+                        break;
+                    case '7': screen.value += 7;
+                        break;
+                    case '8': screen.value += 8;
+                        break;
+                    case '9': screen.value += 9;
+                        break;
+                    case '0': screen.value += 0;
+                        break;
+                    
+                    case '+':
+                        firstnum = screen.value;
+                        sign = "+";
+                        screen.value = '';
+                        break;
+                    case '-':
+                        firstnum = screen.value;
+                        sign = "-";
+                        screen.value = '';
+                        break;
+                    case 'x': 
+                        firstnum = screen.value;
+                        sign = "x";
+                        screen.value = '';
+                        break;
+                    case '/': 
+                        firstnum = screen.value;
+                        sign = "/";
+                        screen.value = '';
+                        break;
+
+                    case '=':
+                        secondnum = screen.value;
+                        screen.value = doMath(firstnum, secondnum, sign);
+                        firstnum = null; secondnum =null;
+                        break;
+
+                    default: break;
+                }
+            }
+            if(self == 'c'){
+                screen.value = '';
+                firstnum = "";
+                secondnum ="";
+                sign = "";
+            }
+        }
+        function doMath(first, second, sign){
+            first = parseInt(first);
+            second = parseInt(second);
+            if(sign == "x"){
+                return first*second;
+            }
+            if(sign == "/"){
+                return first/second;
+            }
+            if(sign == "+"){
+                return first+second;
+            }
+            if(sign == "-"){
+                return first-second;
+            }
+            return null;
+        }
+        /******************************* hours worked *******************************/
+        function save_btn(){
+            var results = document.getElementById("result");
+            // console.log("result : ", results.value);
+            if(results.value == "" || isNaN(result.value)){
+                document.getElementById("hours_worked").textContent = "";
+                // console.log("\tnull or isNaN!!");
+            }
+            else{
+                // console.log("\tis nummm");
+                document.getElementById("hours_worked").textContent = results.value;
+            }
+        }
+
+        /******************************* valid forms *******************************/
+        function submit_btn(){
+            var printBio = "", printHoursWorked="";
+            document.body.style.backgroundColor = "white";
+
+            var screen = document.get
+
+
+            let firstName = document.getElementById("FIRST").value;
+            let lastName = document.getElementById("LAST").value;
+            let stu_id = document.getElementById("ID").value;
+            let bio = document.getElementById("bio").value;
+            let calc = document.getElementById("result").value;
+            let saved_val = document.getElementById("hours_worked").textContent;
+            let countWordsSpan = document.getElementById("count-words");
+            document.getElementById("firstNameSpan").textContent = "";
+            document.getElementById("lastNameSpan").textContent = "";
+            document.getElementById("studentIdSpan").textContent = "";
+            document.getElementById("bioSpan").textContent = "";
+            document.getElementById("hoursWorkedSpan").textContent = "";
+            document.getElementById("calcResultsSpan").textContent = "";
+            /****** setting all default background colors to white ******/
+            document.getElementById("FIRST").style.backgroundColor = "white";
+            document.getElementById("LAST").style.backgroundColor = "white";
+            document.getElementById("ID").style.backgroundColor = "white";
+            document.getElementById("bio").style.backgroundColor = "white";
+            document.getElementById("result").style.backgroundColor = "white";
+
+            if(!onlyLetters(firstName)|| firstName==null){
+                document.getElementById("FIRST").style.backgroundColor = "#fa8e9b";
+                document.getElementById("firstNameSpan").textContent = ("Invalid first name!!");
+            }
+            if(!onlyLetters(lastName)|| lastName==null){
+                // msgLast=("Invalid last name!!");
+                // console.log("lastname : ",lastName);
+                document.getElementById("LAST").style.backgroundColor = "#fa8e9b";
+                document.getElementById("lastNameSpan").textContent = ("Invalid last name!!");
+                // console.log("LAST NAME NOT LETTERS");
+            }
+            // console.log("student id.length : ",stu_id.length);
+            // console.log("isNAN : ", isNaN(stu_id));
+            if(isNaN(stu_id) || stu_id.length!=9){
+                // msgID = ("Student ID must be 9 numbers!!")
+                document.getElementById("ID").style.backgroundColor = "#fa8e9b";
+                document.getElementById("studentIdSpan").textContent = ("Student ID must be 9 numbers!!");
+
+                // console.log("STUDENT ID NEEDS TO BE 9 NUMBERS");
+            }
+            if(countWordsSpan.style == "red"){
+                document.getElementById("bio").style.backgroundColor = "#fa8e9b";
+                // console.log("STUDENT ID NEEDS TO BE 9 NUMBERS");
+            }
+            if(document.getElementById("hours_worked").textContent != ""){
+                // display hours work on alert
+            }
+            // console.log("calc results : ",calc);
+            if(calc == "" || isNaN(calc)){
+                document.getElementById("result").style.backgroundColor = "#fa8e9b";
+                document.getElementById("calcResultsSpan").textContent = ("Calculator screen should have a number!!");
+            }
+
+            if(document.getElementById("FIRST").style.backgroundColor == "white" &&
+            document.getElementById("LAST").style.backgroundColor == "white"&&
+            document.getElementById("ID").style.backgroundColor == "white"&&
+            document.getElementById("result").style.backgroundColor == "white"){
+                document.getElementById("FIRST").style.backgroundColor = "white";
+                document.getElementById("LAST").style.backgroundColor = "white";
+                document.getElementById("ID").style.backgroundColor = "white";
+                document.getElementById("bio").style.backgroundColor = "white";
+                document.getElementById("result").style.backgroundColor = "white";
+                if(document.getElementById("bio").value != ""){
+                    printBio = ("\n\nBio : "+ bio);
+                }
+                
+                if(document.getElementById("hours_worked").textContent!= ""){
+                    console.log("saved val not empty : ",saved_val);
+                    console.log("type ; ",typeof(saved_val));
+                    printHoursWorked = ("\n\nHours Worked : "+ saved_val);
+                }
+                alert("\nName : "+firstName+" "+lastName+"\n\nStudent ID : "+ stu_id+ printBio+printHoursWorked+"\n\nCalculator : "+ calc);
+            }
+            else{
+                document.body.style.backgroundColor = "#fa8e9b";
+            }
+            // document.getElementsByClassName("msg_span").style.color = "red";
+        }
+        function onlyLetters(name){
+            // found online
+            // returning true if all letters in "name" 
+            return /^[a-zA-Z]+$/.test(name);
+        }
+
+
+
+
+
+        // on student info Submit
+            //make sure student id is aall number. if(isNaN() != true) -> give error and dont submit
+    </script>
+<!---------------- End Javascript ------------------>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <span class="title bold" >
+            REGISTRATION FORM
+        </span>
+    </div>
+
+    <div class="student-info">
+        <form class="overflowing">
+            <li>First Name <br><input type="text" id="FIRST" onkeyup="upperCaseFirstLetter(this);"/></li>
+            <li>Last Name <br><input type="text" id="LAST" onkeyup="upperCaseFirstLetter(this);"/></li>
+            <br> Student ID # <br>
+            <input type="text" id="ID" maxlength="9"/>
+            <br> Biography (25 words max) <br>
+            <textarea type="text" id="bio" onkeyup="countWords(this);" cols="45" rows="4" ></textarea>
+            <span id="count-words"></span>
+            <br>
+        </form>
+
+
+    </div>
+
+    <div class="backgr">
+        <div class = "msg_area">
+            <span id="firstNameSpan" class = "msg_span"></span>
+            <span id="lastNameSpan"  class = "msg_span"></span>
+            <span id="studentIdSpan" class = "msg_span"></span>
+            <span id="bioSpan" class = "msg_span"></span>
+            <span id="hoursWorkedSpan" class = "msg_span"></span>
+            <span id="calcResultsSpan" class = "msg_span"></span>
+
+        </div>
+
+        <div class="hours">
+            <span>Hours Worked This Week: </span>
+            <span id="hours_worked"></span>
+        </div>
+
+        <div class="calculate">
+            <span class="calc_title">Calculator</span>
+            <div class="calculator">
+                <form action="">
+                    <input type="text" class="result" id="result"  ><br>
+
+                    <input type="button" class="button b789" value="7" onclick=results(this.value)>
+                    <input type="button" class="button b789" value="8" onclick=results(this.value)>
+                    <input type="button" class="button b789" value="9" onclick=results(this.value)>
+                    <input type="button" class="button btn" value="/" onclick=results(this.value)><br>
+                    <input type="button" class="button" value="4" onclick=results(this.value)>
+                    <input type="button" class="button" value="5" onclick=results(this.value)>
+                    <input type="button" class="button" value="6" onclick=results(this.value)>
+                    <input type="button" class="button btn" value="x" onclick=results(this.value)><br>
+                    <input type="button" class="button" value="1" onclick=results(this.value)>
+                    <input type="button" class="button" value="2" onclick=results(this.value)>
+                    <input type="button" class="button" value="3" onclick=results(this.value)>
+                    <input type="button" class="button btn" value="+" onclick=results(this.value)><br>
+                    <input type="button" class="button clearbtn" value="c" onclick=results(this.value)>
+                    <input type="button" class="button" value="0" onclick=results(this.value)>
+                    <input type="button" class="button btn" value="=" onclick=results(this.value)>
+                    <input type="button" class="button btn" value="-" onclick=results(this.value)>
+
+                </form>
+            </div>
+            
+            <div class = "save">
+                <button type="button" onclick=save_btn()>Save</button>
+                <button type="button" onclick=submit_btn()>Submit</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
